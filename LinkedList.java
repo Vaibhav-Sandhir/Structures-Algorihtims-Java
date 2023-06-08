@@ -136,4 +136,19 @@ public class LinkedList {
         }
         return a.value;
     }
+
+    public void middleNode(){
+        if(isEmpty())
+            throw new IllegalArgumentException();
+        Node a = first;
+        Node b = first;
+        while(b.next != last && b != last){
+            a = a.next;
+            b = b.next.next;
+        }
+        if(b == last)
+            System.out.println(a.value);
+        else
+            System.out.println(a.value + " , " + a.next.value);
+    }
 }
