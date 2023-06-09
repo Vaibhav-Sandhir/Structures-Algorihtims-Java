@@ -1,6 +1,5 @@
 import java.util.HashMap;
 import java.util.Map;
-
 public class FirstNonRepeating {
     public static char check(String str){
         Map<Character,Integer> map = new HashMap<>();
