@@ -1,4 +1,5 @@
 import java.util.*;
+
 public class FirstRepeated {
     public static char firstRepeated(String str){
         Map<Character,Integer> map = new HashMap<>();
