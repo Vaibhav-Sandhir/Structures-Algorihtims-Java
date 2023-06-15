@@ -1,4 +1,6 @@
 import java.util.ArrayDeque;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Queue;
 
 public class BinarySearchTree {
@@ -65,6 +67,10 @@ public class BinarySearchTree {
             preorder(root.leftChild);
             preorder(root.rightChild);
         }
+    }
+
+    public int height() {
+        return height(root);
     }
 
     private void postorder(Node root){
@@ -180,4 +186,111 @@ public class BinarySearchTree {
         nodesAtDistance(root.leftChild,k - 1);
         nodesAtDistance(root.rightChild,k - 1);
     }
+
+
+    public int size(){
+        int count = 0;
+        count = size(root,count);
+        return count;
+    }
+    private int size(Node root,int count){
+        if(root == null)
+            return count;
+        count = count + 1;
+        count = size(root.leftChild,count);
+        count = size(root.rightChild,count);
+        return count;
+    }
+
+    public int countLeaves(){
+        int count = 0;
+        count = countLeaves(root,count);
+        return count;
+    }
+    private int countLeaves(Node root,int count){
+        if(root == null){
+            return count;
+        }
+        if(isLeaf(root)){
+            count = count + 1;
+            return count;
+        }
+        count = countLeaves(root.leftChild,count);
+        count = countLeaves(root.rightChild,count);
+        return count;
+    }
+    public int max(){
+        return max(root);
+    }
+
+    private int max(Node root){
+        if(root.rightChild == null)
+            return root.value;
+        return max(root.rightChild);
+    }
+
+    public boolean contains(int value){
+        return contains(root,value);
+    }
+
+    private boolean contains(Node root,int value){
+        if(root == null)
+            return false;
+        if(root.value == value)
+            return true;
+        return contains(root.leftChild,value) || contains(root.rightChild,value);
+    }
+
+    public boolean areSiblings(int r,int l){
+        return areSiblings(root,r,l);
+    }
+
+    private boolean areSiblings(Node root,int r,int l){
+        if(root == null || root.rightChild == null || root.leftChild == null)
+            return false;
+        if((root.rightChild.value == r && root.leftChild.value == l)
+           || (root.rightChild.value == l && root.leftChild.value == r))
+            return true;
+        else
+            return areSiblings(root.leftChild,r,l) || areSiblings(root.rightChild,r,l);
+    }
+
+    public List<Integer> getAncestors(int value) {
+        var list = new ArrayList<Integer>();
+        getAncestors(root, value, list);
+        return list;
+    }
+
+    private boolean getAncestors(Node root, int value, List<Integer> list) {
+        if (root == null)
+            return false;
+        if (root.value == value)
+            return true;
+        if (getAncestors(root.leftChild, value, list) ||
+                getAncestors(root.rightChild, value, list)) {
+            list.add(root.value);
+            return true;
+        }
+        return false;
+    }
+
+    public boolean isBalanced() {
+        return isBalanced(root);
+    }
+
+    private boolean isBalanced(Node root) {
+        if (root == null)
+            return true;
+
+        var balanceFactor = height(root.leftChild) - height(root.rightChild);
+
+        return Math.abs(balanceFactor) <= 1 &&
+                isBalanced(root.leftChild) &&
+                isBalanced(root.rightChild);
+    }
+
+    public boolean isPerfect() {
+        return size() == (Math.pow(2, height() + 1) - 1);
+    }
+
 }
