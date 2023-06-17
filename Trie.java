@@ -67,6 +67,44 @@ public class Trie {
         traverse(root);
     }
 
+    public boolean containsRecursive(String word) {
+        if (word == null)
+            return false;
+
+        return containsRecursive(root, word, 0);
+    }
+
+    private boolean containsRecursive(Node root, String word, int index) {
+        if (index == word.length())
+            return root.isEndOfWord;
+
+        if (root == null)
+            return false;
+
+        char ch = word.charAt(index);
+        Node child = root.getChild(ch);
+        if (child == null)
+            return false;
+
+        return containsRecursive(child, word, index + 1);
+    }
+
+    public int countWords() {
+        return countWords(root);
+    }
+
+    private int countWords(Node root) {
+        int total = 0;
+
+        if (root.isEndOfWord)
+            total++;
+
+        for (Node child : root.getChildren())
+            total += countWords(child);
+
+        return total;
+    }
+
     private void traverse(Node root){
         System.out.println(root.value); // Pre-Order as visiting root first
         for(Node child: root.getChildren())
@@ -128,4 +166,5 @@ public class Trie {
         }
         return current;
     }
+    // Longest Common Prefix Pending
 }
